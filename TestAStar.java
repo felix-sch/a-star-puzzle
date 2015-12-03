@@ -7,10 +7,19 @@ public class TestAStar {
       {1,2,3},
       {4,5,6},
       {7,8,9}
-    }, 10);
+    }, 0);
 
-    System.out.println(start);
+    Puzzle test = new Puzzle(new int[][] {
+      {2,3,4},
+      {1,5,6},
+      {7,8,0}
+    }, 9);
 
-    AStar.calcShortestPath(start, start);
+    //System.out.println(start);
+    System.out.println(test);
+
+    System.out.println("Heuristic: " + AStar.calcHeuristic(test));
+
+    //AStar.calcShortestPath(start, start);
   }
 }
