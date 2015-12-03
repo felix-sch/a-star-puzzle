@@ -17,6 +17,10 @@ class Puzzle implements Comparable<Puzzle> {
     this.steps = parent.getSteps() + 1;
   }
 
+  public int[][] getNumbers() {
+    return numbers;
+  }
+
   public int getSteps() {
     return steps;
   }

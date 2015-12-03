@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.lang.Math;
 
 class AStar {
   private static ArrayList<Puzzle> open = new ArrayList<Puzzle>();
@@ -43,8 +44,36 @@ class AStar {
     return null;
   }
 
-  private static int calcHeuristic(Puzzle current, Puzzle goal) {
-    return 0;
+  public static int calcHeuristic(Puzzle current, Puzzle goal) {
+    int heuristic = 0;
+    // calculate inner field distance
+
+    for (int i=0; i<goal.getNumbers().length; i++) {
+      for (int j=0; j<goal.getNumbers().length; j++) {
+        int currentNumber = goal.getNumbers()[i][j];
+        int[] currentPosition = new int[] {i, j};
+        int[] desiredPosition = new int[] {(currentNumber %
+          goal.getNumbers().length + (goal.getNumbers().length - 1)) %
+          goal.getNumbers().length, currentNumber / goal.getNumbers().length};
+
+        int innerDistance = Math.abs(currentPosition[0] - desiredPosition[0]) +
+          Math.abs(currentPosition[1] - desiredPosition[1]);
+
+        int outerDistance;
+        int smallerX = Math.min(currentPosition[0], Math.abs(4-currentPosition[0]));
+        int smallerY = Math.min(currentPosition[1], Math.abs(4-currentPosition[1]));
+        int shortestWallCurrent = Math.min(smallerX, smallerY);
+
+        smallerX = Math.min(desiredPosition[0], Math.abs(4-desiredPosition[0]));
+        smallerY = Math.min(desiredPosition[1], Math.abs(4-desiredPosition[1]));
+        int shortestWallDesired = Math.min(smallerX, smallerY);
+
+        outerDistance = Math.min(shortestWallCurrent, shortestWallDesired) + 2;
+        heuristic += Math.min(outerDistance, innerDistance);
+        System.out.println(heuristic);
+      }
+    }
+    return heuristic;
   }
 
   private static Puzzle[] getNeighbors(Puzzle current) {
