@@ -120,7 +120,14 @@ class Puzzle implements Comparable<Puzzle> {
       return false;
 
     Puzzle otherPuzzle = (Puzzle) other;
-    return toString().equals(otherPuzzle.toString());
+
+    for (int i=0; i<numbers.length; i++) {
+      for (int j=0; j<numbers[i].length; j++) {
+        if (numbers[i][j] != otherPuzzle.getNumbers()[i][j])
+          return false;
+      }
+    }
+    return true;
   }
 
   public int compareTo(Puzzle other) {
