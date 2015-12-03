@@ -37,8 +37,12 @@ class Puzzle implements Comparable<Puzzle> {
     this.heuristic = heuristic;
   }
 
+  public Puzzle getParent() {
+    return parent;
+  }
+
   public Puzzle shiftLeft(int row) {
-    int[][] shifted = numbers;
+    int[][] shifted = copyArray(numbers);
     int shiftedLastNum = lastNum;
     int tmp;
     for (int i=shifted[row].length-1; i>=0; i--) {
@@ -48,8 +52,9 @@ class Puzzle implements Comparable<Puzzle> {
     }
     return new Puzzle(shifted, shiftedLastNum, this);
   }
+
   public Puzzle shiftRight(int row) {
-    int[][] shifted = numbers;
+    int[][] shifted = copyArray(numbers);
     int shiftedLastNum = lastNum;
     int tmp;
     for (int i=0; i<shifted[row].length; i++) {
@@ -60,7 +65,7 @@ class Puzzle implements Comparable<Puzzle> {
     return new Puzzle(shifted, shiftedLastNum, this);
   }
   public Puzzle shiftUp(int col) {
-    int[][] shifted = numbers;
+    int[][] shifted = copyArray(numbers);
     int shiftedLastNum = lastNum;
     int tmp;
     for (int i=shifted.length-1; i>=0; i--) {
@@ -71,7 +76,7 @@ class Puzzle implements Comparable<Puzzle> {
     return new Puzzle(shifted, shiftedLastNum, this);
   }
   public Puzzle shiftDown(int col) {
-    int[][] shifted = numbers;
+    int[][] shifted = copyArray(numbers);
     int shiftedLastNum = lastNum;
     int tmp;
     for (int i=0; i<shifted.length; i++) {
@@ -80,6 +85,14 @@ class Puzzle implements Comparable<Puzzle> {
       shiftedLastNum = tmp;
     }
     return new Puzzle(shifted, shiftedLastNum, this);
+  }
+
+  private int[][] copyArray(int[][] array) {
+    int[][] copy = new int[array.length][array.length];
+    for(int i=0; i<array.length; i++)
+      for(int j=0; j<array[i].length; j++)
+        copy[i][j]=array[i][j];
+    return copy;
   }
 
   @Override
