@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.lang.Math;
 import java.io.IOException;
+import java.util.Arrays;
 
 class AStar {
   private static ArrayList<Puzzle> open = new ArrayList<Puzzle>();
@@ -9,9 +10,9 @@ class AStar {
 
   public static Puzzle calcShortestPath(Puzzle start, Puzzle goal) throws IOException {
 
+    int[][][] goalRowPairs = getRowPairs(goal);
     open.clear();
     closed.clear();
-
     open.add(start);
 
     while (open.size() != 0) {
@@ -40,10 +41,11 @@ class AStar {
           continue;
         }
 
-        System.out.println(neighbor);
+        //System.out.println(neighbor);
 
-        neighbor.setHeuristic(calcHeuristic(neighbor));
-        System.out.println("Heuristic of neighbor: " + neighbor.getHeuristic());
+        neighbor.setHeuristic(calcDistanceHeuristic(neighbor)
+          + calcPairsHeuristic(neighbor, goalRowPairs));
+        //System.out.println("Heuristic of neighbor: " + neighbor.getHeuristic());
 
         if (open.contains(neighbor)) {
           //System.in.read();
@@ -62,28 +64,28 @@ class AStar {
           }
         } else {
           open.add(neighbor);
-          System.out.println("Neighbor is not in open list -> added");
+          //System.out.println("Neighbor is not in open list -> added");
         }
       }
 
-      System.out.println("Sorting open list");
+      //System.out.println("Sorting open list");
       for (Puzzle p: open) {
-        System.out.format("%d,", p.getSteps() + p.getHeuristic());
+        //System.out.format("%d,", p.getSteps() + p.getHeuristic());
       }
-      System.out.println();
+      //System.out.println();
 
       Collections.sort(open);
 
       for (Puzzle p: open) {
-        System.out.format("%d,", p.getSteps() + p.getHeuristic());
+        //System.out.format("%d,", p.getSteps() + p.getHeuristic());
       }
-      System.out.println();
+      //System.out.println();
     }
 
     return null;
   }
 
-  public static int calcHeuristic(Puzzle puzzle) {
+  public static int calcDistanceHeuristic(Puzzle puzzle) {
     int heuristic = 0;
 
     for (int i=0; i<puzzle.getNumbers().length; i++) {
@@ -134,6 +136,42 @@ class AStar {
     }
 
     return heuristic;
+  }
+
+  public static int calcPairsHeuristic(Puzzle puzzle, int[][][] goalRowPairs) {
+    int[][][] rowPairs = getRowPairs(puzzle);
+    int heuristic = 0;
+
+    for (int i=0; i<goalRowPairs.length; i++) {
+      int correct = 0;
+      for (int j=0; j<goalRowPairs[i].length; j++) {
+        for (int k=0; k<rowPairs[i].length; k++) {
+          if (Arrays.equals(goalRowPairs[i][j], rowPairs[i][k]))
+            correct++;
+        }
+      }
+      heuristic += goalRowPairs[i].length - correct;
+    }
+
+    return heuristic;
+  }
+
+  public static int[][][] getRowPairs(Puzzle goal) {
+    int[][] nums = goal.getNumbers();
+    int[][][] rowPairs = new int[nums.length][nums.length-1][2];
+    //int[][][] colPairs = new int[nums.length][nums.length-1][2];
+
+    for (int i=0; i<nums.length; i++) {
+      for (int j=0; j<nums.length-1; j++) {
+        rowPairs[i][j][0] = nums[i][j];
+        rowPairs[i][j][1] = nums[i][j+1];
+
+        //System.out.format("(%d,%d) ", rowPairs[i][j][0], rowPairs[i][j][1]);
+      }
+      //System.out.println();
+    }
+
+    return rowPairs;
   }
 
   private static Puzzle[] getNeighbors(Puzzle current) {
