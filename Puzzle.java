@@ -21,6 +21,10 @@ class Puzzle implements Comparable<Puzzle> {
     return numbers;
   }
 
+  public int getLastNum() {
+    return lastNum;
+  }
+
   public int getSteps() {
     return steps;
   }
