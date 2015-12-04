@@ -63,7 +63,7 @@ class AStar {
         if (closed.contains(neighbor))
           continue;
 
-        neighbor.setHeuristic(calcDistanceHeuristic(neighbor));
+        neighbor.setHeuristic(calcDistanceHeuristic(neighbor)
           + calcPairHeuristic(neighbor, goalRowPairs, goalColPairs));
 
         Puzzle existing = null;
@@ -142,9 +142,9 @@ class AStar {
     int[][] nums = goal.getNumbers();
     Pair[][] pairs = new Pair[size][size-1];
 
-    for (int i=0; i<size; i++)
-      for (int j=0; j<size-1; j++)
-        pairs[i][j] = new Pair(nums[j][i], nums[j+1][i]);
+    for (int x=0; x<size; x++)
+      for (int y=0; y<size-1; y++)
+        pairs[x][y] = new Pair(nums[y][x], nums[y+1][x]);
 
     return pairs;
   }
