@@ -1,13 +1,14 @@
 
-class Puzzle implements Comparable<Puzzle> {
+class Puzzle {
   private int[][] numbers;
-  private int lastNum, steps, heuristic;
+  private int lastNum, steps, heuristic, size;
   private Puzzle parent;
 
   public Puzzle(int[][] numbers, int lastNum) {
     this.numbers = numbers;
     this.lastNum = lastNum;
     this.steps = 0;
+    this.size = numbers.length;
     this.parent = null;
   }
 
@@ -37,6 +38,10 @@ class Puzzle implements Comparable<Puzzle> {
     this.heuristic = heuristic;
   }
 
+  public int getSize() {
+    return size;
+  }
+
   public Puzzle getParent() {
     return parent;
   }
@@ -52,7 +57,6 @@ class Puzzle implements Comparable<Puzzle> {
     }
     return new Puzzle(shifted, shiftedLastNum, this);
   }
-
   public Puzzle shiftRight(int row) {
     int[][] shifted = copyArray(numbers);
     int shiftedLastNum = lastNum;
@@ -121,25 +125,11 @@ class Puzzle implements Comparable<Puzzle> {
 
     Puzzle otherPuzzle = (Puzzle) other;
 
-    for (int i=0; i<numbers.length; i++) {
-      for (int j=0; j<numbers[i].length; j++) {
+    for (int i=0; i<numbers.length; i++) 
+      for (int j=0; j<numbers[i].length; j++)
         if (numbers[i][j] != otherPuzzle.getNumbers()[i][j])
           return false;
-      }
-    }
+
     return true;
-  }
-
-  public int compareTo(Puzzle other) {
-    int sum = steps + heuristic;
-    int otherSum = other.getSteps() + other.getHeuristic();
-
-    if (sum < otherSum) {
-      return -1;
-    } else if (sum > otherSum) {
-      return 1;
-    } else {
-      return 0;
-    }
   }
 }
