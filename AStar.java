@@ -15,34 +15,8 @@ class AStar {
     });
   private static ArrayList<Puzzle> closed = new ArrayList<Puzzle>();
 
-  private static class Pair {
-    private int one, two;
-    public Pair(int one, int two) {
-      this.one = one;
-      this.two = two;
-    }
-    public int get1() { return one; }
-    public int get2() { return two; }
-    @Override
-    public boolean equals(Object other) {
-        if (other == null)
-          return false;
-        if (other == this)
-          return true;
-        if (!(other instanceof Pair))
-          return false;
+  public static Puzzle calcShortestPath(Puzzle start, IHeuristic heuristic) {
 
-        Pair otherPair = (Pair) other;
-        return one == otherPair.get1() && two == otherPair.get2();
-    }
-    @Override
-    public String toString() { return "(" + one + "," + two + ")"; }
-  }
-
-  public static Puzzle calcShortestPath(Puzzle start, Puzzle goal) {
-
-    Pair[][] goalRowPairs = getRowPairs(goal);
-    Pair[][] goalColPairs = getColPairs(goal);
     open.clear();
     closed.clear();
     open.add(start);
@@ -51,7 +25,7 @@ class AStar {
       Puzzle current = open.poll();
       closed.add(current);
 
-      if (current.equals(goal))
+      if (current.isSolved())
         return current;
 
       if (closed.size() % 1000 == 0) {
@@ -63,8 +37,7 @@ class AStar {
         if (closed.contains(neighbor))
           continue;
 
-        neighbor.setHeuristic(calcDistanceHeuristic(neighbor)
-          + calcPairHeuristic(neighbor, goalRowPairs, goalColPairs));
+        neighbor.setHeuristic(heuristic.calcHeuristic(neighbor));
 
         Puzzle existing = null;
         for (Iterator<Puzzle> it = open.iterator(); it.hasNext();) {
@@ -88,88 +61,6 @@ class AStar {
     }
 
     return null;
-  }
-
-  private static int getDistanceToWall(int size, Pair pos) {
-    int h = Math.min(pos.get1(), Math.abs(size - 1 - pos.get1()));
-    int v = Math.min(pos.get2(), Math.abs(size - 1 - pos.get2()));
-    return Math.min(h, v);
-  }
-
-  private static int calcDistanceHeuristic(Puzzle puzzle) {
-    int heuristic = 0, size = puzzle.getSize();
-    int[][] nums = puzzle.getNumbers();
-
-    for (int x=0; x<size; x++) {
-      for (int y=0; y<size; y++) {
-        Pair pos = new Pair(x, y);
-        int num = nums[x][y];
-
-        if (num == 0)
-          num = puzzle.getLastNum();
-
-        Pair des = new Pair((num-1) / size, (size - 1 + num % size) % size);
-
-        int distance =
-          getDistanceToWall(size, pos) + getDistanceToWall(size, des) + 2;
-
-        if (num != puzzle.getLastNum()) {
-          distance = Math.min(distance, Math.abs(pos.get1() - des.get1())
-            + Math.abs(pos.get2() - des.get2()));
-        }
-
-        heuristic += distance;
-      }
-    }
-
-    return heuristic;
-  }
-
-  private static Pair[][] getRowPairs(Puzzle goal) {
-    int size = goal.getSize();
-    int[][] nums = goal.getNumbers();
-    Pair[][] pairs = new Pair[size][size-1];
-
-    for (int x=0; x<size; x++)
-      for (int y=0; y<size-1; y++)
-        pairs[x][y] = new Pair(nums[x][y], nums[x][y+1]);
-
-    return pairs;
-  }
-
-  private static Pair[][] getColPairs(Puzzle goal) {
-    int size = goal.getSize();
-    int[][] nums = goal.getNumbers();
-    Pair[][] pairs = new Pair[size][size-1];
-
-    for (int x=0; x<size; x++)
-      for (int y=0; y<size-1; y++)
-        pairs[x][y] = new Pair(nums[y][x], nums[y+1][x]);
-
-    return pairs;
-  }
-
-  private static int calcPairHeuristic(Puzzle puzzle,
-    Pair[][] goalRowPairs, Pair[][] goalColPairs) {
-    Pair[][] rowPairs = getRowPairs(puzzle);
-    Pair[][] colPairs = getColPairs(puzzle);
-    int heuristic = 0;
-
-    for (int i=0; i<goalRowPairs.length; i++) {
-      int correctRowPairs = 0, correctColPairs = 0;
-      for (int j=0; j<goalRowPairs[i].length; j++) {
-        for (int k=0; k<rowPairs[i].length; k++) {
-          if (goalRowPairs[i][j].equals(rowPairs[i][k]))
-            correctRowPairs++;
-          if (goalColPairs[i][j].equals(colPairs[i][k]))
-            correctColPairs++;
-        }
-      }
-      heuristic += goalRowPairs[i].length - correctRowPairs;
-      heuristic += goalColPairs[i].length - correctColPairs;
-    }
-
-    return heuristic;
   }
 
   private static Puzzle[] getNeighbors(Puzzle current) {

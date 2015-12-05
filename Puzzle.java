@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 class Puzzle {
   private int[][] numbers;
@@ -16,6 +20,42 @@ class Puzzle {
     this(numbers, lastNum);
     this.parent = parent;
     this.steps = parent.getSteps() + 1;
+  }
+
+  public static Puzzle createGoal(int size) {
+    int[][] nums = new int[size][size];
+    for (int i=0; i<size; i++)
+      for (int j=0; j<size; j++)
+        nums[i][j] = i*size + j + 1;
+    return new Puzzle(nums, 0);
+  }
+
+  public static Puzzle fromFile(File file) {
+    int[][] nums = null;
+    int lastNum = 0;
+
+    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+      String line;
+      for (int i=0; (line = br.readLine()) != null; i++) {
+        String[] split = line.split(";");
+
+        if (nums == null)
+          nums = new int[split.length][split.length];
+
+        if (split.length > 1) {
+          for (int j=0; j<split.length; j++)
+            nums[i][j] = Integer.parseInt(split[j]);
+        } else {
+          lastNum = Integer.parseInt(split[0]);
+        }
+      }
+
+    } catch (IOException e) {
+      // TODO
+      e.printStackTrace();
+    }
+
+    return new Puzzle(nums, lastNum);
   }
 
   public int[][] getNumbers() {
@@ -46,11 +86,19 @@ class Puzzle {
     return parent;
   }
 
+  public boolean isSolved() {
+    for (int i=0; i<size; i++)
+      for (int j=0; j<size; j++)
+        if (numbers[i][j] != i*size + j + 1)
+          return false;
+    return true;
+  }
+
   public Puzzle shiftLeft(int row) {
     int[][] shifted = copyArray(numbers);
     int shiftedLastNum = lastNum;
     int tmp;
-    for (int i=shifted[row].length-1; i>=0; i--) {
+    for (int i=size-1; i>=0; i--) {
       tmp = shifted[row][i];
       shifted[row][i] = shiftedLastNum;
       shiftedLastNum = tmp;
@@ -61,7 +109,7 @@ class Puzzle {
     int[][] shifted = copyArray(numbers);
     int shiftedLastNum = lastNum;
     int tmp;
-    for (int i=0; i<shifted[row].length; i++) {
+    for (int i=0; i<size; i++) {
       tmp = shifted[row][i];
       shifted[row][i] = shiftedLastNum;
       shiftedLastNum = tmp;
@@ -72,7 +120,7 @@ class Puzzle {
     int[][] shifted = copyArray(numbers);
     int shiftedLastNum = lastNum;
     int tmp;
-    for (int i=shifted.length-1; i>=0; i--) {
+    for (int i=size-1; i>=0; i--) {
       tmp = shifted[i][col];
       shifted[i][col] = shiftedLastNum;
       shiftedLastNum = tmp;
@@ -83,7 +131,7 @@ class Puzzle {
     int[][] shifted = copyArray(numbers);
     int shiftedLastNum = lastNum;
     int tmp;
-    for (int i=0; i<shifted.length; i++) {
+    for (int i=0; i<size; i++) {
       tmp = shifted[i][col];
       shifted[i][col] = shiftedLastNum;
       shiftedLastNum = tmp;
@@ -102,13 +150,12 @@ class Puzzle {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    for (int i=0; i<numbers.length; i++) {
-      for (int j=0; j<numbers[i].length; j++) {
+    for (int i=0; i<size; i++) {
+      for (int j=0; j<size; j++)
         sb.append(String.format("%1$2s ", numbers[i][j]));
-      }
-      if (i == numbers.length-1) {
+
+      if (i == size-1)
         sb.append(String.format("Last: %1$2s", lastNum));
-      }
       sb.append('\n');
     }
     return sb.toString();
@@ -125,8 +172,11 @@ class Puzzle {
 
     Puzzle otherPuzzle = (Puzzle) other;
 
-    for (int i=0; i<numbers.length; i++) 
-      for (int j=0; j<numbers[i].length; j++)
+    if (size != otherPuzzle.getSize())
+      return false;
+
+    for (int i=0; i<size; i++)
+      for (int j=0; j<size; j++)
         if (numbers[i][j] != otherPuzzle.getNumbers()[i][j])
           return false;
 
