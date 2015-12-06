@@ -1,13 +1,13 @@
 import java.io.File;
 
-public class TestAStar {
+class SolvePuzzle {
 
   public static void main(String[] args) {
 
     if (args.length != 1) {
       System.out.print(
         "Usage: program input.csv\n\nSample input.csv:\n" +
-        "8;4;3\n1;9;7\n2;6;5\n0\n");
+        "8;4;3\n1;9;7\n2;6;5\n0;;\n");
       return;
     }
 
@@ -19,7 +19,10 @@ public class TestAStar {
     Puzzle last = AStar.calcShortestPath(p, h);
     long elapsedTimeMillis = System.currentTimeMillis() - start;
 
-    if (last != null) {
+    if (last == null) {
+      System.out.println("A* was not smart enough to deliver a valid solution. "
+        + "Might be " + args[0] + " broken?");
+      } else {
       System.out.println("Steps:");
       printPath(last);
     }

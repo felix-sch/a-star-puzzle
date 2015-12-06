@@ -23,8 +23,8 @@ class PairHeuristic implements IHeuristic {
             correctColPairs++;
         }
       }
-      heuristic += size - correctRowPairs;
-      heuristic += size - correctColPairs;
+      heuristic += size - correctRowPairs - 1;
+      heuristic += size - correctColPairs - 1;
     }
 
     return heuristic;
