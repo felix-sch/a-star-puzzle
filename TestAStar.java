@@ -5,7 +5,9 @@ public class TestAStar {
   public static void main(String[] args) {
 
     if (args.length != 1) {
-      System.out.println("Usage: program input.csv");
+      System.out.print(
+        "Usage: program input.csv\n\nSample input.csv:\n" +
+        "8;4;3\n1;9;7\n2;6;5\n0\n");
       return;
     }
 
