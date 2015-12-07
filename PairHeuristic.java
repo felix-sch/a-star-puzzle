@@ -1,13 +1,27 @@
+/** Class to calculate heuristic based on desired pairs that already exist.
+  *
+  * @author Felix Schaumann, Dominic Pfeil
+  * @version 1.0
+  */
 class PairHeuristic implements IHeuristic {
 
   private Pair[][] goalRowPairs, goalColPairs;
 
+  /** Constructs a PairHeuristic instance.
+    *
+    * @param size size of the puzzle
+    */
   public PairHeuristic(int size) {
     Puzzle goal = Puzzle.createGoal(size);
     goalRowPairs = getRowPairs(goal);
     goalColPairs = getColPairs(goal);
   }
 
+  /** Calculates the heuristic of a given puzzle based on pairs.
+    *
+    * @param p puzzle to calculate heuristic for
+    * @return heuristic of given puzzle
+    */
   public int calcHeuristic(Puzzle p) {
     Pair[][] rowPairs = getRowPairs(p);
     Pair[][] colPairs = getColPairs(p);
@@ -30,6 +44,11 @@ class PairHeuristic implements IHeuristic {
     return heuristic;
   }
 
+  /** Gets pairs for all rows of a given puzzle.
+    *
+    * @param p puzzle to calculate heuristic for
+    * @returns pairs
+    */
   private Pair[][] getRowPairs(Puzzle p) {
     int size = p.getSize();
     int[][] nums = p.getNumbers();
@@ -42,6 +61,11 @@ class PairHeuristic implements IHeuristic {
     return pairs;
   }
 
+  /** Gets pairs for all columns of a given puzzle.
+    *
+    * @param p puzzle to calculate heuristic for
+    * @returns pairs
+    */
   private Pair[][] getColPairs(Puzzle p) {
     int size = p.getSize();
     int[][] nums = p.getNumbers();
@@ -54,14 +78,41 @@ class PairHeuristic implements IHeuristic {
     return pairs;
   }
 
+  /** Class that represents a pair in a puzzle.
+    *
+    * @author Felix Schaumann, Dominic Pfeil
+    * @version 1.0
+    */
   private static class Pair {
     private int one, two;
+
+    /** Constructs a pair.
+      *
+      * @param one first number of pair
+      * @param two second number of pair
+      */
     public Pair(int one, int two) {
       this.one = one;
       this.two = two;
     }
+
+    /** Returns first value.
+      *
+      * @return first value
+      */
     public int get1() { return one; }
+
+    /** Returns second value.
+      *
+      * @return second value
+      */
     public int get2() { return two; }
+
+    /** Overridden method for equality of two pairs.
+      *
+      * @param other object to compare
+      * @return boolean value of equality
+      */
     @Override
     public boolean equals(Object other) {
         if (other == null)
@@ -74,6 +125,11 @@ class PairHeuristic implements IHeuristic {
         Pair otherPair = (Pair) other;
         return one == otherPair.get1() && two == otherPair.get2();
     }
+
+    /** Overridden method to form a pair to a string.
+      *
+      * @return string that represents pair
+      */
     @Override
     public String toString() { return "(" + one + "," + two + ")"; }
   }
