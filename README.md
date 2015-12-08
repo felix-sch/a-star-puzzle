@@ -15,6 +15,7 @@ java bin/SolvePuzzle 3x3.csv
 
 ```bash
 java -d bin -sourcepath src src/SolvePuzzle.java
+java bin/SolvePuzzle 3x3.csv
 ```
 
 ## Challenge
