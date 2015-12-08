@@ -1,5 +1,16 @@
+/** Class to calculate heuristic based on distance of single points.
+  *
+  * @author Felix Schaumann, Dominic Pfeil
+  * @version 1.0
+  */
 class DistanceHeuristic implements IHeuristic {
 
+  /** Calculates heuristic for given puzzle based on the distance of single
+    * points of the puzzle to their desired position.
+    *
+    * @param p puzzle to calculate heuristic for
+    * @return calculated heuristic
+    */
   public int calcHeuristic(Puzzle p) {
     int heuristic = 0, size = p.getSize();
     int[][] nums = p.getNumbers();
@@ -26,6 +37,13 @@ class DistanceHeuristic implements IHeuristic {
     return heuristic;
   }
 
+  /** Gets distance of a single point to closest wall.
+    *
+    * @param size size of the puzzle
+    * @param x x-value of the point
+    * @param y y-value of the point
+    * @return minimum distance to closest wall
+    */
   private int getDistanceToWall(int size, int x, int y) {
     int h = Math.min(x, Math.abs(size - 1 - x));
     int v = Math.min(y, Math.abs(size - 1 - y));

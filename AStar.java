@@ -4,7 +4,13 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
+/** This class perfoms all the relevant steps for a successul a*-star routine.
+  *
+  * @author Felix Schaumann, Dominic Pfeil
+  * @version 1.0
+  */
 class AStar {
+
   private static PriorityQueue<Puzzle> open = new PriorityQueue<Puzzle>(10,
     new Comparator<Puzzle>() {
       @Override
@@ -15,6 +21,13 @@ class AStar {
     });
   private static ArrayList<Puzzle> closed = new ArrayList<Puzzle>();
 
+  /** Performs the a*-star algorithm itself.
+    *
+    * @param start start-puzzle (node)
+    * @param heuristic heuristic that defines the weightings of nodes
+    *
+    * @return solved puzzle
+    */
   public static Puzzle calcShortestPath(Puzzle start, IHeuristic heuristic) {
 
     open.clear();
@@ -63,6 +76,11 @@ class AStar {
     return null;
   }
 
+  /** Determines all possible neighbors of a given node.
+    *
+    * @param current current node of the puzzle
+    * @return array of all possible neighbors
+    */
   private static Puzzle[] getNeighbors(Puzzle current) {
     ArrayList<Puzzle> neighbors = new ArrayList<Puzzle>();
     for (int i=0; i<current.getNumbers().length; i++) {

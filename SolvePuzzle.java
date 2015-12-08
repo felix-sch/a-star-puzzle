@@ -1,9 +1,17 @@
 import java.io.File;
 
+/** This is the main class of the A*-Puzzle-Solver.
+  *
+  * @author Felix Schaumann, Dominic Pfeil
+  * @version 1.0
+  */
 class SolvePuzzle {
 
+  /** Main method of the program. Gets puzzle from file.
+    *
+    * @param args command line arguments (csv-file)
+    */
   public static void main(String[] args) {
-
     if (args.length != 1) {
       System.out.print(
         "Usage: program input.csv\n\nSample input.csv:\n" +
@@ -32,6 +40,10 @@ class SolvePuzzle {
       elapsedTimeMillis / 1000F);
   }
 
+  /** Prints path from start to a given end node.
+    *
+    * @param p Puzzle-node
+    */
   private static void printPath(Puzzle p) {
     if (p.getParent() != null)
       printPath(p.getParent());
