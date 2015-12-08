@@ -2,11 +2,25 @@
 
 The A* (A star) search algorithm is commonly used in shortest path findings.
 
-## Compile and Run
+## Run
 
 ```bash
-javac SolvePuzzle.java
-java SolvePuzzle 3x3.csv
+java -jar bin/SolvePuzzle.jar sample-puzzles/3x3.csv
+```
+
+## Compile
+
+**Windows**
+
+```bash
+javac -d bin -sourcepath src src/SolvePuzzle.java
+jar cmf src/MANIFEST.MF bin/SolvePuzzle.jar bin/*.class
+```
+
+**Linux**
+
+```bash
+make
 ```
 
 ## Challenge
@@ -29,7 +43,7 @@ After pushing the <b>0</b> from right into the first row:
 2 6 5  Last number: 8
 ```
 
-The goal puzzle after n steps by pushing the free field into any row or column:
+The goal puzzle after `n` steps by pushing the free field into any row or column:
 
 ```
 1 2 3
@@ -60,15 +74,13 @@ The goal puzzle after n steps by pushing the free field into any row or column:
 **Windows**
 
 ```bash
-javac -cp junit-4.12.jar;. AStarTest.java & ^
-jar cf AStarTest.jar *.class & ^
-java -cp junit-4.12.jar;hamcrest-core-1.3.jar;AStarTest.jar org.junit.runner.JUnitCore AStarTest
+javac -d bin -cp lib/junit-4.12.jar;. -sourcepath src test/AStarTest.java
+jar cmf test/MANIFEST.MF bin/AStarTest.jar bin/*.class
+java -cp lib/junit-4.12.jar;lib/hamcrest-core-1.3.jar;bin/AStarTest.jar org.junit.runner.JUnitCore AStarTest
 ```
 
 **Linux**
 
 ```bash
-javac -cp junit-4.12.jar:. AStarTest.java &&
-jar cf AStarTest.jar *.class &&
-java -cp junit-4.12.jar:hamcrest-core-1.3.jar:AStarTest.jar org.junit.runner.JUnitCore AStarTest
+make test
 ```
