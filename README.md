@@ -8,14 +8,14 @@ The A* (A star) search algorithm is commonly used in shortest path findings.
 
 ```bash
 make
-java bin/SolvePuzzle 3x3.csv
+java -cp bin SolvePuzzle <CSV-File>
 ```
 
 **By Hand**
 
 ```bash
 java -d bin -sourcepath src src/SolvePuzzle.java
-java bin/SolvePuzzle 3x3.csv
+java -cp bin SolvePuzzle <CSV-File>
 ```
 
 ## Challenge
