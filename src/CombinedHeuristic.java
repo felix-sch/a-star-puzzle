@@ -23,7 +23,7 @@ class CombinedHeuristic implements IHeuristic {
     *
     * @param weightings array of weightings
     */
-  public void setWeightings(int[] weightings) {
+  public void setWeightings(int... weightings) {
     this.weightings = weightings;
   }
 

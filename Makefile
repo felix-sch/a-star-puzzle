@@ -23,8 +23,13 @@ clean:
 	-rm	 $(bin_d)/*.class
 
 test: $(test_d)/AStarTest.java
-	$(JCC) -d $(class_d) $(JFLAGSTEST) $(JUNIT):. \
+	$(JCC) -d $(bin_d) $(JFLAGSTEST) $(JUNIT):. \
 		-sourcepath $(source_d) $(test_d)/AStarTest.java
 	jar cmf $(test_d)/MANIFEST.MF $(bin_d)/AStarTest.jar $(bin_d)/*.class
 	java -cp  $(JUNIT):$(HAMCREST):$(bin_d)/AStarTest.jar \
 		org.junit.runner.JUnitCore AStarTest
+
+performance: $(test_d)/PerformanceTest.javac
+	$(JCC) $(JFLAGS) $(test_d)/PerformanceTest.java
+	jar cmf $(test_d)/MANIFEST.performance.MF $(bin_d)/PerformanceTest.jar \
+		$(bin_d)/*.class

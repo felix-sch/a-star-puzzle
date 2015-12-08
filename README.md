@@ -84,3 +84,26 @@ java -cp lib/junit-4.12.jar;lib/hamcrest-core-1.3.jar;bin/AStarTest.jar org.juni
 ```bash
 make test
 ```
+
+## Performance Tests
+
+### Run
+
+```bash
+java -jar bin/PerformanceTest.jar sample-puzzles/3x3.csv
+```
+
+### Compile
+
+**Windows**
+
+```bash
+javac -d bin -sourcepath src test/PerformanceTest.java
+jar cmf test/MANIFEST.performance.MF bin/PerformanceTest.jar bin/*.class
+```
+
+**Linux**
+
+```bash
+make performance
+```
