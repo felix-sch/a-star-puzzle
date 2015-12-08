@@ -1,0 +1,2 @@
+Main-Class: SolvePuzzle
+Class-Path: .

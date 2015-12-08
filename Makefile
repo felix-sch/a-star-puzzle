@@ -1,28 +1,30 @@
 # SETUP
 
-class_d=bin
+bin_d=bin
 source_d=src
 test_d=test
 lib_d=lib
 
 JCC=javac
-JFLAGS=-g -d $(class_d) -sourcepath $(source_d)
-JFLAGSTEST= -g -cp
+JFLAGS=-g -d $(bin_d) -sourcepath $(source_d)
+JFLAGSTEST=-g -cp
 
 JUNIT=$(lib_d)/junit-4.12.jar
 HAMCREST=$(lib_d)/hamcrest-core-1.3.jar
 
-.PHONY: test
+.PHONY: clean test
+default: SolvePuzzle clean
 
-default: SolvePuzzle
-
-SolvePuzzle: $(source_d)/SolvePuzzle.java
+SolvePuzzle: $(source_d)/*.java
 	$(JCC) $(JFLAGS) $(source_d)/SolvePuzzle.java
+	jar cmf $(src_d)/MANIFEST.MF $(bin_d)/SolvePuzzle.jar $(bin_d)/*.class
 
 clean:
-	$(RM) $(class_d)/*
+	-rm	 $(bin_d)/*.class
 
-test: $(JUNIT) $(HAMCREST)
-	$(JCC) -d $(class_d) $(JFLAGSTEST) $(JUNIT):. -sourcepath src $(test_d)/AStarTest.java &&\
-	jar cf $(test_d)/AStarTest.jar $(class_d)/*.class &&\
-	java -cp  $(JUNIT):$(HAMCREST):$(test_d)/AStarTest.jar:$(class_d) org.junit.runner.JUnitCore AStarTest
+test: $(test_d)/AStarTest.java
+	$(JCC) -d $(class_d) $(JFLAGSTEST) $(JUNIT):. \
+		-sourcepath $(source_d) $(test_d)/AStarTest.java
+	jar cmf $(test_d)/MANIFEST.MF $(bin_d)/AStarTest.jar $(bin_d)/*.class
+	java -cp  $(JUNIT):$(HAMCREST):$(bin_d)/AStarTest.jar \
+		org.junit.runner.JUnitCore AStarTest
