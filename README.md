@@ -4,9 +4,17 @@ The A* (A star) search algorithm is commonly used in shortest path findings.
 
 ## Compile and Run
 
+**With Make**
+
 ```bash
 make
 java bin/SolvePuzzle 3x3.csv
+```
+
+**By Hand**
+
+```bash
+java -d bin -sourcepath src src/SolvePuzzle.java
 ```
 
 ## Challenge
@@ -65,8 +73,15 @@ jar cf AStarTest.jar *.class & ^
 java -cp junit-4.12.jar;hamcrest-core-1.3.jar;AStarTest.jar org.junit.runner.JUnitCore AStarTest
 ```
 
-**Linux**
+**Linux - with make**
 
 ```bash
 make test
+```
+
+**Linux - by hand**
+```bash
+javac -g -d bin -cp lib/junit-4.12.jar:. -sourcepath src test/AStarTest.java && 
+jar cf test/AStarTest bin/*.class &&
+java -cp lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:test/AStarTest.jar:bin org.junit.runner.JUnitCore AStarTest
 ```
