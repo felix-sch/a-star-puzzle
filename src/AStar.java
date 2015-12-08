@@ -38,9 +38,11 @@ class AStar {
       Puzzle current = open.poll();
       closed.add(current);
 
-      if (current.isSolved())
+      if (current.isSolved()) {
+        System.out.format("Open=%d Closed=%d\n", open.size(), closed.size());
         return current;
-
+      }
+      
       if (closed.size() % 1000 == 0) {
         System.out.println(current);
         System.out.format("Open=%d Closed=%d\n", open.size(), closed.size());

@@ -41,4 +41,13 @@ class CombinedHeuristic implements IHeuristic {
     return heuristic;
   }
 
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder("CombinedHeuristic ( ");
+    for (int i=0; i<heuristics.length; i++)
+      sb.append(weightings[i] + ": " + heuristics[i] + " ");
+    sb.append(")");
+    return sb.toString();
+  }
+
 }

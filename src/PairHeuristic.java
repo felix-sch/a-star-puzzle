@@ -78,6 +78,11 @@ class PairHeuristic implements IHeuristic {
     return pairs;
   }
 
+  @Override
+  public String toString() {
+    return "PairHeuristic";
+  }
+
   /** Class that represents a pair in a puzzle.
     *
     * @author Felix Schaumann, Dominic Pfeil
