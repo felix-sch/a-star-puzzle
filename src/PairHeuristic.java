@@ -47,7 +47,7 @@ class PairHeuristic implements IHeuristic {
   /** Gets pairs for all rows of a given puzzle.
     *
     * @param p puzzle to calculate heuristic for
-    * @returns pairs
+    * @return pairs
     */
   private Pair[][] getRowPairs(Puzzle p) {
     int size = p.getSize();
@@ -64,7 +64,7 @@ class PairHeuristic implements IHeuristic {
   /** Gets pairs for all columns of a given puzzle.
     *
     * @param p puzzle to calculate heuristic for
-    * @returns pairs
+    * @return pairs
     */
   private Pair[][] getColPairs(Puzzle p) {
     int size = p.getSize();

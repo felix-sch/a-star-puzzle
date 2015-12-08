@@ -85,49 +85,49 @@ class Puzzle {
   }
 
   /**
-    *
+    * @return puzzle's numbers
     */
   public int[][] getNumbers() {
     return numbers;
   }
 
   /**
-    *
+    * @return last number of a puzzle (empty field)
     */
   public int getLastNum() {
     return lastNum;
   }
 
   /**
-    *
+    * @return steps of a puzzle
     */
   public int getSteps() {
     return steps;
   }
 
   /**
-    *
+    * @return heuristic of a puzzle
     */
   public int getHeuristic() {
     return heuristic;
   }
 
   /**
-    *
+    * @param heuristic to be set for puzzle
     */
   public void setHeuristic(int heuristic) {
     this.heuristic = heuristic;
   }
 
   /**
-    *
+    * @return size of a puzzle
     */
   public int getSize() {
     return size;
   }
 
   /**
-    *
+    * @return parent of a puzzle
     */
   public Puzzle getParent() {
     return parent;
