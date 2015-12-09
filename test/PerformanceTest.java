@@ -1,6 +1,6 @@
 import java.io.File;
 
-class PerformanceTest extends SolvePuzzle {
+public class PerformanceTest extends SolvePuzzle {
 
   public static void main(String[] args) {
 

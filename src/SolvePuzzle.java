@@ -5,7 +5,7 @@ import java.io.File;
   * @author Felix Schaumann, Dominic Pfeil
   * @version 1.0
   */
-class SolvePuzzle {
+public class SolvePuzzle {
 
   protected final static String usageMsg =
     "Usage: program input.csv\n\nSample input.csv:\n8;4;3\n1;9;7\n2;6;5\n0;;\n";
