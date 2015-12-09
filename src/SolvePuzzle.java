@@ -44,6 +44,7 @@ class SolvePuzzle {
       elapsedTimeMillis / (60*1000F),
       elapsedTimeMillis / 1000F);
     System.out.println("----------------------------------------");
+	printPath(last);
   }
 
   /** Prints path from start to a given end node.
