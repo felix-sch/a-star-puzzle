@@ -13,8 +13,8 @@ java -jar bin/SolvePuzzle.jar sample-puzzles/3x3.csv
 **Windows**
 
 ```bash
-javac -d bin -sourcepath src src/SolvePuzzle.java
-jar cmf src/MANIFEST.MF bin/SolvePuzzle.jar bin/*.class
+javac -d . -sourcepath src src/SolvePuzzle.java
+jar cfe bin/SolvePuzzle.jar SolvePuzzle *.class
 ```
 
 **Linux**
@@ -74,8 +74,8 @@ The goal puzzle after `n` steps by pushing the free field into any row or column
 **Windows**
 
 ```bash
-javac -d bin -cp lib/junit-4.12.jar;. -sourcepath src test/AStarTest.java
-jar cmf test/MANIFEST.MF bin/AStarTest.jar bin/*.class
+javac -d . -cp lib/junit-4.12.jar;. -sourcepath src test/AStarTest.java
+jar cf bin/AStarTest.jar *.class
 java -cp lib/junit-4.12.jar;lib/hamcrest-core-1.3.jar;bin/AStarTest.jar org.junit.runner.JUnitCore AStarTest
 ```
 
@@ -98,8 +98,8 @@ java -jar bin/PerformanceTest.jar sample-puzzles/3x3.csv
 **Windows**
 
 ```bash
-javac -d bin -sourcepath src test/PerformanceTest.java
-jar cmf test/MANIFEST.performance.MF bin/PerformanceTest.jar bin/*.class
+javac -d . -sourcepath src test/PerformanceTest.java
+jar cfe bin/PerformanceTest.jar PerformanceTest *.class
 ```
 
 **Linux**

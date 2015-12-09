@@ -5,7 +5,7 @@ import java.io.File;
   * @author Felix Schaumann, Dominic Pfeil
   * @version 1.0
   */
-class SolvePuzzle {
+public class SolvePuzzle {
 
   protected final static String usageMsg =
     "Usage: program input.csv\n\nSample input.csv:\n8;4;3\n1;9;7\n2;6;5\n0;;\n";
@@ -20,15 +20,20 @@ class SolvePuzzle {
       return;
     }
 
-    solve(Puzzle.fromFile(new File(args[0])), new DistanceToPowerHeuristic(2));
+    Puzzle last = solve(
+      Puzzle.fromFile(new File(args[0])), new DistanceToPowerHeuristic(2));
+
+  	printPath(last);
   }
 
   /** Solves puzzle using given heuristic and prints results.
     *
     * @param p Puzzle-node
     * @param h Heuristic
+    *
+    * @return solved puzzle (last state)
     */
-  protected static void solve(Puzzle p, IHeuristic h) {
+  protected static Puzzle solve(Puzzle p, IHeuristic h) {
     long start = System.currentTimeMillis();
     Puzzle last = AStar.calcShortestPath(p, h);
     long elapsedTimeMillis = System.currentTimeMillis() - start;
@@ -40,11 +45,12 @@ class SolvePuzzle {
       System.out.println(h + ": Steps=" + getSteps(last));
     }
 
-    System.out.format("Elapsed time: %f min %f secs\n",
+    System.out.format("Elapsed time: %f min (%f secs)\n",
       elapsedTimeMillis / (60*1000F),
       elapsedTimeMillis / 1000F);
     System.out.println("----------------------------------------");
-	printPath(last);
+
+    return last;
   }
 
   /** Prints path from start to a given end node.
@@ -60,6 +66,8 @@ class SolvePuzzle {
   /** Counts number of steps from start to destination puzzle.
     *
     * @param p Puzzle-node
+    *
+    * @return steps
     */
   protected static int getSteps(Puzzle p) {
     if (p.getParent() != null)
