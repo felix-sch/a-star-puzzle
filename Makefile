@@ -13,7 +13,7 @@ JUNIT=$(lib_d)/junit-4.12.jar
 HAMCREST=$(lib_d)/hamcrest-core-1.3.jar
 
 .PHONY: clean test
-default: SolvePuzzle
+default: SolvePuzzle clean
 
 SolvePuzzle: $(source_d)/*.java
 	$(JCC) $(JFLAGS) $(source_d)/SolvePuzzle.java
