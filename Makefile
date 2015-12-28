@@ -31,4 +31,4 @@ test: $(test_d)/AStarTest.java
 
 performance: $(test_d)/PerformanceTest.java
 	$(JCC) $(JFLAGS) $(test_d)/PerformanceTest.java
-	jar cfe $(bin_d)/PerformanceTest.jar PerformanceTest $(bin_d)/*.class
+	jar cfe $(bin_d)/PerformanceTest.jar PerformanceTest *.class
